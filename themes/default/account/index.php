@@ -21,6 +21,9 @@
 		<label for="last_ip"><?php echo htmlspecialchars(Flux::message('LastUsedIpLabel')) ?>:</label>
 		<input type="text" name="last_ip" id="last_ip" value="<?php echo htmlspecialchars($params->get('last_ip') ?: '') ?>" />
 		...
+		<label for="last_unique_id"><?php echo htmlspecialchars(Flux::message('last_unique_id')) ?>:</label>
+		<input type="text" name="last_unique_id" id="last_unique_id" value="<?php echo htmlspecialchars($params->get('last_unique_id')) ?>" />
+		...
 		<label for="gender"><?php echo htmlspecialchars(Flux::message('GenderLabel')) ?>:</label>
 		<select name="gender" id="gender">
 			<option value=""<?php if (!in_array($gender=$params->get('gender'), array('M', 'F'))) echo ' selected="selected"' ?>><?php echo htmlspecialchars(Flux::message('AllLabel')) ?></option>
@@ -98,6 +101,7 @@
 		<th><?php echo $paginator->sortableColumn('birthdate', Flux::message('AccountBirthdateLabel')) ?></th>
 		<th><?php echo $paginator->sortableColumn('lastlogin', Flux::message('LastLoginDateLabel')) ?></th>
 		<th><?php echo $paginator->sortableColumn('last_ip', Flux::message('LastUsedIpLabel')) ?></th>
+		<th><?php echo $paginator->sortableColumn('last_unique_id', Flux::message('last_unique_id')) ?></th>
 		<!-- <th><?php echo $paginator->sortableColumn('reg_date', 'Register Date') ?></th> -->
 	</tr>
 	<?php foreach ($accounts as $account): ?>
@@ -154,6 +158,13 @@
 		<td>
 			<?php if ($account->last_ip): ?>
 				<?php echo $this->linkToAccountSearch(array('last_ip' => $account->last_ip), $account->last_ip) ?>
+			<?php else: ?>
+				<span class="not-applicable"><?php echo htmlspecialchars(Flux::message('NoneLabel')) ?></span>
+			<?php endif ?>
+		</td>
+		<td>
+			<?php if ($account->last_unique_id): ?>
+				<?php echo $this->linkToAccountSearch(array('last_unique_id' => $account->last_unique_id), $account->last_unique_id) ?>
 			<?php else: ?>
 				<span class="not-applicable"><?php echo htmlspecialchars(Flux::message('NoneLabel')) ?></span>
 			<?php endif ?>

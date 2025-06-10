@@ -105,9 +105,36 @@
 			<?php endif ?>
 		</td>
 	</tr>
+	<tr>
+		<th><?php echo htmlspecialchars(Flux::message('last_unique_id')) ?></th>
+		<td colspan="3">
+			<?php if ($account->last_unique_id): ?>
+				<?php if ($auth->actionAllowed('account', 'index')): ?>
+					<?php echo $this->linkToAccountSearch(array('last_unique_id' => $account->last_unique_id), $account->last_unique_id) ?>
+				<?php else: ?>
+					<?php echo htmlspecialchars($account->last_unique_id) ?>
+				<?php endif ?>
+			<?php else: ?>
+				<span class="not-applicable"><?php echo htmlspecialchars(Flux::message('NoneLabel')) ?></span>
+			<?php endif ?>
+		</td>
+	</tr>
 	<?php $banconfirm=htmlspecialchars(str_replace("'", "\\'", Flux::message('AccountBanConfirm'))) ?>
 	<?php if ($showTempBan): ?>
 	<tr>
+		<th><?php echo htmlspecialchars(Flux::message('NOTE')) ?></th>
+		<td colspan="3">
+			<form action="<?php echo $this->urlWithQs ?>" method="post">
+				<input type="hidden" name="tempban" value="1" />
+				<label><?php echo htmlspecialchars(Flux::message('NoteLabel')) ?><br /><textarea name="reason" class="block reason"></textarea></label>
+			
+				<?php echo $this->dateTimeField('tempban', date('0:0:0')); ?>
+				<input type="submit" value="<?php echo htmlspecialchars(Flux::message('Note')) ?>"
+					onclick="return confirm('<?php echo $banconfirm ?>')" />
+			</form>
+		</td>
+	</tr>
+		<tr>
 		<th><?php echo htmlspecialchars(Flux::message('AccountViewTempBanLabel')) ?></th>
 		<td colspan="3">
 			<form action="<?php echo $this->urlWithQs ?>" method="post">

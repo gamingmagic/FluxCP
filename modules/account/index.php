@@ -39,6 +39,7 @@ else {
 	$password         = $params->get('password');
 	$email            = $params->get('email');
 	$lastIP           = $params->get('last_ip');
+	$last_unique_id   = $params->get('last_unique_id');
 	$gender           = $params->get('gender');
 	$accountState     = $params->get('account_state');
 	$accountGroupIdOp = $params->get('account_group_id_op');
@@ -81,7 +82,12 @@ else {
 		$bind[]      = "%$lastIP%";
 		$bind[]      = $lastIP;
 	}
-	
+
+	if ($last_unique_id) {
+		$sqlpartial .= "AND (login.last_unique_id LIKE ? OR login.last_unique_id = ?) ";
+		$bind[]      = "%$last_unique_id%";
+		$bind[]      = $last_unique_id;
+	}	
 	if (in_array($gender, array('M', 'F'))) {
 		$sqlpartial .= "AND login.sex = ? ";
 		$bind[]      = $gender;
@@ -154,7 +160,7 @@ $paginator = $this->getPaginator($sth->fetch()->total);
 $paginator->setSortableColumns(array(
 	'login.account_id' => 'asc', 'login.userid', 'login.user_pass',
 	'login.sex', 'group_id', 'state', 'balance',
-	'login.email', 'logincount', 'lastlogin', 'last_ip',
+	'login.email', 'logincount', 'lastlogin', 'last_ip', 'last_unique_id', 
 	'reg_date'
 ));
 
